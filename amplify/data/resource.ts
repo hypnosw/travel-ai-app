@@ -8,22 +8,22 @@ const schema = a.schema({
 
   askBedrock: a
     .query()
-    .arguments({interests: a.string().array()})
+    .arguments({ interests: a.string().array() })
     .returns(a.ref("BedrockResponse"))
     .authorization((allow) => [allow.authenticated()])
     .handler(
-      a.handler.custom({entry: "./bedrock.js", dataSource: "bedrockDS"}),
-    )
-})
+      a.handler.custom({ entry: "./bedrock.js", dataSource: "bedrockDS" })
+    ),
+});
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
-  authorizationModes:{
-    defaultAuthorizationMode: "apiKey",
-    apiKeyAuthorizationMode:{
+  authorizationModes: {
+    defaultAuthorizationMode: "userPool",
+    apiKeyAuthorizationMode: {
       expiresInDays: 30,
-    }
-  }
-})
+    },
+  },
+});
